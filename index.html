@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risk Management Document Hub</title>
+    <!--
+        This links to Tailwind CSS, a framework that helps you style your website
+        quickly using pre-defined classes. It's loaded directly from a CDN (Content Delivery Network).
+    -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!--
+        This links to the 'Inter' font from Google Fonts, making the text look modern and clean.
+    -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Sets the default font for the entire body */
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Enables smooth scrolling when clicking on navigation links */
+            scroll-behavior: smooth;
+        }
+        /* Styles for the active navigation link (when a section is in view) */
+        .nav-link.active {
+            @apply text-blue-600 font-semibold;
+        }
+        /*
+            Ensures each main section takes up most of the screen height.
+            'calc(100vh - 80px)' means 100% of the viewport height minus the fixed header's height (approx 80px).
+            This helps with the scroll-spy effect and makes sections visually distinct.
+        */
+        section {
+            min-height: calc(100vh - 80px);
+            display: flex; /* Uses Flexbox for easy centering of content */
+            align-items: center; /* Centers content vertically */
+            justify-content: center; /* Centers content horizontally */
+            flex-direction: column; /* Stacks content vertically */
+        }
+        /* Adjusts the hero section's minimum height to account for the fixed header */
+        .min-h-screen-minus-header {
+            min-height: calc(100vh - 80px);
+        }
+        /* Media query for smaller screens (mobile devices) */
+        @media (max-width: 768px) {
+            section {
+                min-height: auto; /* Allows sections to shrink on smaller screens */
+                padding-top: 6rem; /* Adds space at the top to prevent content from hiding under the fixed header */
+                padding-bottom: 6rem; /* Adds space at the bottom */
+            }
+            .min-h-screen-minus-header {
+                min-height: auto;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header Section: This stays at the top of the page as you scroll -->
+    <header class="bg-white shadow-md fixed w-full z-10">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- Logo/Site Title: Links back to the top of the page -->
+            <a href="#hero" class="text-2xl font-bold text-blue-700 rounded-md p-2 hover:bg-blue-50 transition duration-300">Risk Docs Hub</a>
+            <!-- Desktop Navigation Links: Hidden on small screens -->
+            <div class="hidden md:flex space-x-8">
+                <a href="#documents" class="nav-link text-gray-600 hover:text-blue-700 rounded-md p-2 transition duration-300">Documents</a>
+                <a href="#news" class="nav-link text-gray-600 hover:text-blue-700 rounded-md p-2 transition duration-300">News</a>
+                <a href="#contact" class="nav-link text-gray-600 hover:text-blue-700 rounded-md p-2 transition duration-300">Contact</a>
+            </div>
+            <!-- Mobile Menu Button (Hamburger Icon): Visible only on small screens -->
+            <button id="mobile-menu-button" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </nav>
+        <!-- Mobile Menu Overlay: Hidden by default, shown when hamburger is clicked -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white py-4 shadow-lg">
+            <a href="#documents" class="block px-6 py-2 text-gray-700 hover:bg-blue-100 rounded-md mx-4 my-2 transition duration-300">Documents</a>
+            <a href="#news" class="block px-6 py-2 text-gray-700 hover:bg-blue-100 rounded-md mx-4 my-2 transition duration-300">News</a>
+            <a href="#contact" class="block px-6 py-2 text-gray-700 hover:bg-blue-100 rounded-md mx-4 my-2 transition duration-300">Contact</a>
+        </div>
+    </header>
+
+    <!-- Hero Section: The main welcoming section of your website -->
+    <section id="hero" class="relative bg-gradient-to-r from-blue-700 to-blue-500 text-white py-24 md:py-32 flex items-center justify-center min-h-screen-minus-header">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
+                Your Hub for Risk Management Documents
+            </h1>
+            <p class="text-lg md:text-xl mb-8 max-w-3xl mx-auto">
+                Access essential frameworks, policies, analytical resources, and the latest news to strengthen your risk capabilities.
+            </p>
+            <!-- Button to scroll down to the documents section -->
+            <a href="#documents" class="bg-white text-blue-700 hover:bg-blue-100 font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 transform hover:scale-105">
+                Explore Documents
+            </a>
+        </div>
+    </section>
+
+    <!-- Document Section: Where users can find and filter documents -->
+    <section id="documents" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-blue-700">Risk Management Documents</h2>
+
+            <!-- Filter Controls: Dropdowns for country and topic -->
+            <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8 mb-12">
+                <div class="w-full md:w-auto">
+                    <label for="countryFilter" class="block text-gray-700 text-sm font-bold mb-2">Filter by Country:</label>
+                    <select id="countryFilter" class="shadow border rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="none">Select Country</option> <!-- Default option -->
+                        <option value="all">All Countries</option>
+                        <option value="global">Global</option>
+                        <option value="india">India</option>
+                        <option value="ksa">KSA</option>
+                        <option value="uae">UAE</option>
+                        <option value="us">US</option>
+                    </select>
+                </div>
+                <div class="w-full md:w-auto">
+                    <label for="topicFilter" class="block text-gray-700 text-sm font-bold mb-2">Filter by Topic:</label>
+                    <select id="topicFilter" class="shadow border rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="none">Select Topic</option> <!-- Default option -->
+                        <option value="all">All Topics</option>
+                        <option value="erm">ERM</option>
+                        <option value="credit">Credit Risk</option>
+                        <option value="operational">Operational Risk</option>
+                        <option value="regulatory">Regulatory Compliance</option>
+                        <option value="market">Market Risk</option>
+                        <option value="liquidity">Liquidity Risk</option>
+                        <option value="capital">Capital Management</option>
+                        <option value="aml-kyc">AML/KYC</option>
+                        <option value="stress-testing">Stress Testing</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Document Table Container: This is where the filtered documents will appear in a table -->
+            <div id="documentTableContainer" class="w-full overflow-x-auto rounded-lg shadow-xl">
+                <!-- Initial message displayed before any filters are selected -->
+                <p class="text-center text-gray-600 p-8">Select filters above to view relevant documents.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Section: Displays the latest risk management news -->
+    <section id="news" class="py-16 md:py-24 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-blue-700">Latest Risk Management News</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+
+                <!-- Example News Article 1 -->
+                <div class="bg-white rounded-lg shadow-xl p-8 transform hover:scale-105 transition duration-300">
+                    <h3 class="text-2xl font-semibold mb-2 text-gray-900">New AI Regulations Impacting Financial Risk</h3>
+                    <p class="text-gray-600 text-sm mb-4">July 5, 2025 | Global</p>
+                    <p class="text-gray-700 mb-4">
+                        Regulators are proposing new guidelines for AI model governance and risk assessment in financial services.
+                    </p>
+                    <a href="#" class="text-blue-600 hover:underline font-medium">Read More</a>
+                </div>
+
+                <!-- Example News Article 2 -->
+                <div class="bg-white rounded-lg shadow-xl p-8 transform hover:scale-105 transition duration-300">
+                    <h3 class="text-2xl font-semibold mb-2 text-gray-900">Cybersecurity Breaches on the Rise in Banking Sector</h3>
+                    <p class="text-gray-600 text-sm mb-4">July 3, 2025 | Regional</p>
+                    <p class="text-gray-700 mb-4">
+                        Analysis of recent cybersecurity incidents and recommendations for enhanced digital resilience.
+                    </p>
+                    <a href="#" class="text-blue-600 hover:underline font-medium">Read More</a>
+                </div>
+
+                <!-- Example News Article 3 -->
+                <div class="bg-white rounded-lg shadow-xl p-8 transform hover:scale-105 transition duration-300">
+                    <h3 class="text-2xl font-semibold mb-2 text-gray-900">ESG Risk Integration in Investment Portfolios</h3>
+                    <p class="text-gray-600 text-sm mb-4">June 28, 2025 | Global</p>
+                    <p class="text-gray-700 mb-4">
+                        How financial firms are incorporating Environmental, Social, and Governance factors into risk assessments.
+                    </p>
+                    <a href="#" class="text-blue-600 hover:underline font-medium">Read More</a>
+                </div>
+
+                <!-- Example News Article 4 -->
+                <div class="bg-white rounded-lg shadow-xl p-8 transform hover:scale-105 transition duration-300">
+                    <h3 class="text-2xl font-semibold mb-2 text-gray-900">Impact of Interest Rate Hikes on Credit Risk</h3>
+                    <p class="text-gray-600 text-sm mb-4">June 25, 2025 | US Market</p>
+                    <p class="text-gray-700 mb-4">
+                        Expert analysis on how rising interest rates are affecting consumer and corporate credit defaults.
+                    </p>
+                    <a href="#" class="block text-center text-blue-600 hover:underline font-medium">Read More</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section: A simple form for users to get in touch -->
+    <section id="contact" class="py-16 md:py-24 bg-gradient-to-r from-blue-700 to-blue-500 text-white">
+        <div class="container mx-auto px-6 text-center max-w-2xl">
+            <h2 class="text-3xl md:text-4xl font-bold mb-8">Have Questions or Need Specific Resources?</h2>
+            <p class="text-lg mb-8">
+                Feel free to reach out if you have inquiries about these documents or require assistance with specific risk management challenges.
+            </p>
+            <form class="bg-white p-8 rounded-lg shadow-xl text-gray-800">
+                <div class="mb-6">
+                    <input type="text" id="name" name="name" placeholder="Your Name" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                <div class="mb-6">
+                    <input type="email" id="email" name="email" placeholder="Your Email" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                <div class="mb-6">
+                    <textarea id="message" name="message" rows="5" placeholder="Your Message" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required></textarea>
+                </div>
+                <button type="submit" class="bg-blue-700 text-white hover:bg-blue-800 font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 transform hover:scale-105">
+                    Send Message
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer Section: Simple copyright information -->
+    <footer class="bg-gray-800 text-white py-8 text-center">
+        <div class="container mx-auto px-6">
+            <p>&copy; 2025 Risk Docs Hub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for interactivity -->
+    <script>
+        // --- Mobile Menu Toggle Logic ---
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        // When the hamburger button is clicked, show/hide the mobile menu
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // When a link inside the mobile menu is clicked, hide the menu
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // --- Document Filtering and Rendering Logic ---
+        const countryFilter = document.getElementById('countryFilter');
+        const topicFilter = document.getElementById('topicFilter');
+        const documentTableContainer = document.getElementById('documentTableContainer');
+
+        // This is your data! Each object represents a document.
+        // You can add more documents here. Remember to update the 'link' property
+        // with actual URLs to your PDF files (e.g., from Google Drive, Dropbox, etc.).
+        const allDocumentsData = [
+            { title: 'ERM Framework Overview', description: 'A comprehensive guide to establishing and maintaining an effective Enterprise Risk Management framework.', country: 'global', topics: ['erm'], link: 'https://www.africau.edu/images/default/sample.pdf' },
+            { title: 'Basel III Summary', description: 'Key principles and requirements of the Basel III framework for capital adequacy and liquidity standards.', country: 'global', topics: ['regulatory', 'capital'], link: 'https://www.africau.edu/images/default/sample.pdf' },
+            { title: 'ISO 31000 Guidelines', description: 'International standard providing principles and generic guidelines on risk management.', country: 'global', topics: ['erm'], link: 'https://www.africau.edu/images/default/sample.pdf' },
+            { title: 'Credit Risk Policy Template', description: 'Template for a comprehensive credit risk policy, covering lending guidelines and approval processes.', country: 'global', topics: ['credit'], link: 'https://www.africau.edu/images/default/sample.pdf' },
+            { title: 'Operational Risk Manual', description: 'Manual outlining procedures for identifying, assessing, monitoring, and reporting operational risks.', country: 'global', topics: ['operational'], link: 'https://www.africau.edu/images/default/sample.pdf' },
+            { title: 'AML/KYC Best Practices', description: 'Guidelines for Anti-Money Laundering (AML) and Know Your Customer (KYC) procedures.', country: 'global', topics: ['regulatory', 'aml-kyc'], link: 'https://www.africau.edu/images/default/sample.pdf' },
+            { title: 'Stress Testing Methodology', description: 'Methodology document for conducting financial stress tests, including scenario design and impact assessment.', country: 'global', topics: ['stress-testing', 'capital'], link: 'https://www.africau.edu/images/default/sample.pdf' },
+            { title: 'NPL Analysis Report Sample', description: 'Sample report on Non-Performing Loan (NPL) segmentation and vintage analysis.', country: 'global', topics: ['credit', 'analysis'], link: 'https://www.africau.edu/images/default/sample.pdf' },
+            { title: 'RCSA Template & Guide', description: 'A template and guide for conducting effective Risk Control Self-Assessments.', country: 'global', topics: ['operational', 'erm'], link: 'https://www.africau.edu/images/default/sample.pdf' },
+            { title: 'RBI Credit Policy Guidelines', description: 'Summary of recent Reserve Bank of India (RBI) guidelines impacting credit policies for Indian banks.', country: 'india', topics: ['regulatory', 'credit'], link: 'https://www.africau.edu/images/default/sample.pdf' },
+            { title: 'SAMA Operational Risk Circulars', description: 'Key circulars and directives from the Saudi Central Bank (SAMA) on operational risk management.', country: 'ksa', topics: ['regulatory', 'operational'], link: 'https://www.africau.edu/images/default/sample.pdf' },
+            { title: 'CBUAE Liquidity Framework', description: 'Overview of the Central Bank of UAE\'s (CBUAE) framework for liquidity risk management.', country: 'uae', topics: ['regulatory', 'liquidity'], link: 'https://www.africau.edu/images/default/sample.pdf' },
+            { title: 'US Dodd-Frank Act Summary', description: 'Summary of the Dodd-Frank Wall Street Reform and Consumer Protection Act and its impact on financial regulation.', country: 'us', topics: ['regulatory'], link: 'https://www.africau.edu/images/default/sample.pdf' },
+            { title: 'Market Risk VaR Calculation Guide', description: 'A practical guide to calculating Value-at-Risk (VaR) for market risk assessment.', country: 'global', topics: ['market', 'analysis'], link: 'https://www.africau.edu/images/default/sample.pdf' },
+            { title: 'Climate Risk Reporting Standards', description: 'Emerging standards and best practices for reporting climate-related financial risks.', country: 'global', topics: ['erm', 'regulatory'], link: 'https://www.africau.edu/images/default/sample.pdf' },
+            { title: 'Liquidity Stress Testing Scenarios', description: 'Examples of scenarios for liquidity stress testing in financial institutions.', country: 'global', topics: ['liquidity', 'stress-testing'], link: 'https://www.africau.edu/images/default/sample.pdf' }
+        ];
+
+        // Function to render documents in a table format
+        function renderDocuments(filteredDocs) {
+            documentTableContainer.innerHTML = ''; // Clear any existing content (like the "Select filters..." message)
+
+            // If no documents match the filters, display a message
+            if (filteredDocs.length === 0) {
+                documentTableContainer.innerHTML = '<p class="text-center text-gray-600 p-8">No documents found matching your criteria.</p>';
+                return;
+            }
+
+            // Create the table element
+            const table = document.createElement('table');
+            // Apply Tailwind CSS classes for basic table styling
+            table.className = 'min-w-full bg-white border border-gray-200 rounded-lg';
+
+            // Create table header
+            const thead = table.createTHead();
+            const headerRow = thead.insertRow();
+            // Define header columns
+            ['Document Title', 'Description', 'Country', 'Topics', 'Action'].forEach(text => {
+                const th = document.createElement('th');
+                // Apply Tailwind CSS classes for header styling
+                th.className = 'py-3 px-4 bg-blue-100 text-left text-sm font-semibold text-blue-700 uppercase tracking-wider rounded-tl-lg rounded-tr-lg';
+                th.textContent = text;
+                headerRow.appendChild(th);
+            });
+
+            // Create table body
+            const tbody = table.createTBody();
+            // Loop through each filtered document and create a table row
+            filteredDocs.forEach(doc => {
+                const row = tbody.insertRow();
+                // Apply Tailwind CSS classes for row styling
+                row.className = 'border-b border-gray-200 hover:bg-gray-50 transition duration-150';
+
+                // Create and populate cells for each column
+                const titleCell = row.insertCell();
+                titleCell.className = 'py-3 px-4 text-sm font-medium text-gray-900';
+                titleCell.textContent = doc.title;
+
+                const descriptionCell = row.insertCell();
+                descriptionCell.className = 'py-3 px-4 text-sm text-gray-700';
+                descriptionCell.textContent = doc.description;
+
+                const countryCell = row.insertCell();
+                countryCell.className = 'py-3 px-4 text-sm text-gray-700 capitalize';
+                countryCell.textContent = doc.country;
+
+                const topicsCell = row.insertCell();
+                topicsCell.className = 'py-3 px-4 text-sm text-gray-700 capitalize';
+                // Join multiple topics with a comma for display
+                topicsCell.textContent = doc.topics.join(', ');
+
+                const actionCell = row.insertCell();
+                actionCell.className = 'py-3 px-4 text-sm text-blue-600';
+                const link = document.createElement('a');
+                link.href = doc.link; // Set the document URL from your data
+                link.textContent = 'View Document';
+                link.className = 'hover:underline font-medium';
+                link.target = '_blank'; // Opens the link in a new browser tab
+                actionCell.appendChild(link);
+            });
+
+            // Add the completed table to the container on the page
+            documentTableContainer.appendChild(table);
+        }
+
+        // Function to filter documents based on selected dropdown values and then render them
+        function filterAndRenderDocuments() {
+            const selectedCountry = countryFilter.value;
+            const selectedTopic = topicFilter.value;
+
+            // If neither filter has been explicitly selected (still on 'none' default),
+            // show the initial message and do not render any documents.
+            if (selectedCountry === 'none' && selectedTopic === 'none') {
+                documentTableContainer.innerHTML = '<p class="text-center text-gray-600 p-8">Select filters above to view relevant documents.</p>';
+                return;
+            }
+
+            // Filter the 'allDocumentsData' array
+            const filteredDocs = allDocumentsData.filter(doc => {
+                // Check if the document's country matches the selected country filter
+                // 'all' matches everything, 'none' means don't filter by country yet
+                const matchesCountry = (selectedCountry === 'all' || selectedCountry === 'none' || doc.country === selectedCountry);
+                // Check if the document's topics include the selected topic filter
+                // 'all' matches everything, 'none' means don't filter by topic yet
+                const matchesTopic = (selectedTopic === 'all' || selectedTopic === 'none' || doc.topics.includes(selectedTopic));
+                
+                // A document is included if both country and topic filters match
+                return matchesCountry && matchesTopic;
+            });
+
+            // Call renderDocuments to display the filtered results
+            renderDocuments(filteredDocs);
+        }
+
+        // Event Listeners: When the value of a filter dropdown changes, re-filter and re-render documents
+        countryFilter.addEventListener('change', filterAndRenderDocuments);
+        topicFilter.addEventListener('change', filterAndRenderDocuments);
+
+        // Initial setup when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            // Display the initial message and set dropdowns to 'none'
+            documentTableContainer.innerHTML = '<p class="text-center text-gray-600 p-8">Select filters above to view relevant documents.</p>';
+            countryFilter.value = 'none';
+            topicFilter.value = 'none';
+        });
+
+        // --- Optional: Scroll Spy for Active Navigation Links ---
+        // This part makes the navigation link in the header highlight when its corresponding section is in view.
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        window.addEventListener('scroll', () => {
+            let current = ''; // Variable to store the ID of the currently active section
+
+            // Loop through each section to determine which one is currently visible
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop; // Distance from the top of the page to the section
+                const sectionHeight = section.clientHeight; // Height of the section
+                // If the current scroll position is within the section's range
+                // (adjusted by sectionHeight/3 to activate a bit earlier)
+                if (pageYOffset >= sectionTop - sectionHeight / 3) {
+                    current = section.getAttribute('id'); // Get the ID of the visible section
+                }
+            });
+
+            // Loop through navigation links and apply/remove 'active' class
+            navLinks.forEach(link => {
+                link.classList.remove('active'); // Remove 'active' from all links first
+                // If the link's href matches the ID of the current section, add 'active' class
+                if (link.href.includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
